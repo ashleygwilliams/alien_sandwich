@@ -1,19 +1,16 @@
+require 'open-uri'
+
 class GistScraper
 
-	BASE_URL = "https://gist.github.com/"
+	BASE_URL = "https://gist.github.com"
 
-	def initialize(gistArray)
-		@gists = gistArray
-	end
-
-	def getDataHash
-		dataHash = {}
-		@gists.each do |gist|
-			download = open(BASE_URL + gist)
-			#html = Nokogiri::HTML(download)
-			#gist = html.seach(".line")
-			gist.split("/")
-			gist
+	def getDataHash(gist_url)
+		download = open(BASE_URL + gist_url)
+		html = Nokogiri::HTML(download)
+		if html.search(".line").length > 0
+			gist = html.search(".line")
+		else
+			gist = html.search("article")
 		end
 	end
 
