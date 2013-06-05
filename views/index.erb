@@ -1,4 +1,4 @@
-<% myGists = ["/katieishibashi/5702056",
+<% myChunks = ["/katieishibashi/5702056",
               "/laptite/5702716",
               "/stevenabrooks/5702760",
               "/mschmaus201/5702823",
@@ -31,19 +31,21 @@
               "/Jaltman429/5701846"] %>
 <% tgr = EngTagger.new %>
 <h1>Alien Sandwich</h1>
-<h2><%= myGists.length %> responses</h2>
+<h2><%= myChunks.length %> responses</h2>
 <ul>
+<% myGists = [] %>
+<% myChunks.each do |chunk| %>
+  <% myGists.push(StuGist.new(chunk)) %>
+<% end %>
 <% myGists.each do |gist| %>
-	<li id="<%= gist.split("/").fetch(1)%>">
-		<h3><a href="<%= GistScraper::BASE_URL + gist %>"><%= gist.split("/").fetch(1) %></a></h3>
-    <p><%= GistScraper::getContent(gist) %></p>
-    <p><strong>Steps:</strong><%= GistScraper::getContent(gist).length %></p>
-    <% word_list = tgr.get_words(GistScraper::getContent(gist).to_a.join(' ')) %>
-    <% sorted = word_list.sort_by {|word, count| count} %>
-    <p><strong>Word Count:</strong><%= sorted.length %></p>
+	<li id="<%= gist.git_handle %>">
+		<h3><a href="<%= gist.URL %>"><%= gist.git_handle %></a></h3>
+    <p><%= gist.content %></p>
+    <p><strong>Steps:</strong><%= gist.content.length %></p>
+    <p><strong>Word Count:</strong><%= gist.word_list.length %></p>
     <p><strong>Counts:</strong>
       <ul>
-        <% sorted.each do |word| %>
+        <% gist.word_list.each do |word| %>
           <li>
             <%= word[0] %>: <%= word[1] %>
           </li>
