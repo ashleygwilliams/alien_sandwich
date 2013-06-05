@@ -29,20 +29,36 @@
               "/ruthienachmany/5705193",
               "/dmanaster/b70f3a2f3eddc23ad33d",
               "/Jaltman429/5701846"] %>
-<% tgr = EngTagger.new %>
-<h1>Alien Sandwich</h1>
-<h2><%= myChunks.length %> responses</h2>
-<ul>
 <% myGists = [] %>
 <% myChunks.each do |chunk| %>
   <% myGists.push(StuGist.new(chunk)) %>
 <% end %>
+<% myAnalyzer = Analyzer.new(myGists) %>
+<h1>Alien Sandwich</h1>
+<h2>Analysis<h2>
+<h3>Average Word Count</h3>
+<p>Average number of unique words in each individual set of instructions</p>
+<%= myAnalyzer.get_avg_wrawcount %>
+<h3>Average Noun Count</h3>
+<p>Average number of unique nouns or noun phrases in each individual set of instructions</p>
+<%= myAnalyzer.get_avg_wordcount %>
+<h3>Average Nouns per Word</h3>
+<%= myAnalyzer.word_pwraw %>
+<h3>Top Words</h3>
+<p>Word that appeared the most in each individual set of instructions</p>
+<%= myAnalyzer.get_top_wordlist %>
+<h3>Popular Words</h3>
+<p>Words that appeared 3 or more times in each individual set of instructions</p>
+<%= myAnalyzer.get_pop_wordlist %>
+<h2><%= myChunks.length %> responses</h2>
+<ul>
 <% myGists.each do |gist| %>
 	<li id="<%= gist.git_handle %>">
 		<h3><a href="<%= gist.URL %>"><%= gist.git_handle %></a></h3>
     <p><%= gist.content %></p>
     <p><strong>Steps:</strong><%= gist.content.length %></p>
-    <p><strong>Word Count:</strong><%= gist.word_list.length %></p>
+    <p><strong>Raw Word Count:</strong><%= gist.wraw_count %></p>
+    <p><strong>Noun Count:</strong><%= gist.word_count %></p>
     <p><strong>Counts:</strong>
       <ul>
         <% gist.word_list.each do |word| %>
