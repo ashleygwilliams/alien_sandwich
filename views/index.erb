@@ -1,11 +1,55 @@
-<% myGists = ["/kirinm1/5703173","/SamanthaRadocchia/5703194","/deatheragetr/5703240",
-"/mendelk/5703284","/dfriedm/5703312","/chhhris/5703347","/JGTR/ef1e81cc1e8deaf5f67c","/lightn1ng/311261a563baf3e8e972","/desmondrawls/5703430","/gglin/5703455","/awaxman11/5703494","/jmlcampbell/e58881364b28e302acdf","/joegiralt/5703519","/rodriguezd/5702208","/joshuaccollins/f6b790b4dfff08f70da3","/chrisgonzgonz/5703547","/anishavasandani/5703695","/maxjacobson/5703632","/sarahduve/5703716"] %>
+<% myGists = ["/katieishibashi/5702056",
+              "/laptite/5702716",
+              "/stevenabrooks/5702760",
+              "/mschmaus201/5702823",
+              "/picodegallo/5702830",
+              "/surrealdetective/5702955",
+              "/micahrcorn/5703066",
+              "/sgrshah/a4ead87cdd5eae4d14cb",
+              "/jeneisen/ea6175f23340ed9ff2db",
+              "/kirinm1/5703173",
+              "/SamanthaRadocchia/5703194",
+              "/deatheragetr/5703240",
+              "/mendelk/5703284",
+              "/dfriedm/5703312",
+              "/chhhris/5703347",
+              "/JGTR/ef1e81cc1e8deaf5f67c",
+              "/lightn1ng/311261a563baf3e8e972",
+              "/desmondrawls/5703430",
+              "/gglin/5703455",
+              "/awaxman11/5703494",
+              "/jmlcampbell/e58881364b28e302acdf",
+              "/joegiralt/5703519",
+              "/rodriguezd/5702208",
+              "/joshuaccollins/f6b790b4dfff08f70da3",
+              "/chrisgonzgonz/5703547",
+              "/anishavasandani/5703695",
+              "/maxjacobson/5703632",
+              "/sarahduve/5703716",
+              "/ruthienachmany/5705193",
+              "/dmanaster/b70f3a2f3eddc23ad33d",
+              "/Jaltman429/5701846"] %>
+<% tgr = EngTagger.new %>
 <h1>Alien Sandwich</h1>
+<h2><%= myGists.length %> responses</h2>
 <ul>
 <% myGists.each do |gist| %>
-	<li>
-		<strong><a href="<%= GistScraper::BASE_URL + gist %>"><%= gist %>:</a></strong>
-    <%= GistScraper::getContent(gist) %>
+	<li id="<%= gist.split("/").fetch(1)%>">
+		<h3><a href="<%= GistScraper::BASE_URL + gist %>"><%= gist.split("/").fetch(1) %></a></h3>
+    <p><%= GistScraper::getContent(gist) %></p>
+    <p><strong>Steps:</strong><%= GistScraper::getContent(gist).length %></p>
+    <% word_list = tgr.get_words(GistScraper::getContent(gist).to_a.join(' ')) %>
+    <% sorted = word_list.sort_by {|word, count| count} %>
+    <p><strong>Word Count:</strong><%= sorted.length %></p>
+    <p><strong>Counts:</strong>
+      <ul>
+        <% sorted.each do |word| %>
+          <li>
+            <%= word[0] %>: <%= word[1] %>
+          </li>
+        <% end %>
+      </ul>
+    </p>
     <br/>
 	</li>
 <% end %>

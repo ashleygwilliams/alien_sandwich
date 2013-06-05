@@ -3,6 +3,7 @@ GEM
   specs:
     domain_name (0.5.11)
       unf (>= 0.0.5, < 1.0.0)
+    engtagger (0.1.2)
     http-cookie (1.0.1)
       domain_name (~> 0.5)
     mechanize (2.7.1)
@@ -40,6 +41,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  engtagger
   mechanize
   multi_json
   nokogiri
